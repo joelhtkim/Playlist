@@ -30,22 +30,15 @@
         </div>
     </div>
 
-    <!-- Guess the Song Game Section -->
+    <!-- Guess the Song Section -->
     <div id="game-section">
         <h2>Guess the Song</h2>
         <p>Select a playlist to start the game.</p>
         <button id="start-game-button" disabled>Start Game</button>
-        <div id="game-content" style="display: none;">
-            <p id="round-info"></p>
-            <audio id="song-preview" controls style="display: none;"></audio>
-            <input type="text" id="song-guess" placeholder="Type your guess here">
-            <button id="submit-guess-button">Submit Guess</button>
-            <p id="game-feedback"></p>
-            <p>Score: <span id="game-score">0</span>/5</p>
-        </div>
     </div>
 
     <!-- Include the JavaScript file -->
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
 </body>
 </html>

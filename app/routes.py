@@ -149,18 +149,16 @@ def get_playlist_tracks(playlist_id):
     if not token_info:
         return {"message": "User not logged in"}, 401
 
-    if not playlist_id:
-        return {"message": "Playlist ID is required"}, 400
-
     sp = Spotify(auth=token_info["access_token"])
     try:
         playlist_tracks = sp.playlist_tracks(playlist_id)
         tracks = [
             {
                 "name": track["track"]["name"],
-                "artist": ", ".join(artist["name"] for artist in track["track"]["artists"]),
+                "preview_url": track["track"]["preview_url"],  # Include preview URL
+                "album_image": track["track"]["album"]["images"][0]["url"] if track["track"]["album"]["images"] else None,
                 "album": track["track"]["album"]["name"],
-                "album_image": track["track"]["album"]["images"][0]["url"] if track["track"]["album"]["images"] else None
+                "artist": ", ".join(artist["name"] for artist in track["track"]["artists"])
             }
             for track in playlist_tracks.get("items", [])
         ]
@@ -168,6 +166,7 @@ def get_playlist_tracks(playlist_id):
     except Exception as e:
         print(f"Error fetching playlist tracks: {e}")
         return {"message": "Error fetching playlist tracks"}, 500
+
 
 
 @main.route("/check-login-status")
@@ -211,5 +210,10 @@ def get_game_tracks(playlist_id):
     except Exception as e:
         print(f"Error fetching playlist tracks: {e}")
         return {"message": "Error fetching playlist tracks"}, 500
+
+
+@main.route("/quiz/<playlist_id>")
+def quiz(playlist_id):
+    return render_template("quiz.html", playlist_id=playlist_id)
 
 

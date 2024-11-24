@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Song</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div id="quiz-container" data-playlist-id="{{ playlist_id }}">
+        <h2>Guess the Song</h2>
+        <p>Listen to the snippet and type the song name below:</p>
+
+        <!-- Audio Player -->
+        <div id="audio-controls">
+            <button id="play-button">Play</button>
+            <button id="pause-button">Pause</button>
+            <audio id="song-audio" src="" preload="auto"></audio>
+        </div>
+
+        <!-- Search Bar -->
+        <div id="search-container">
+            <input type="text" id="song-guess" placeholder="Type your guess here">
+            <button id="submit-guess-button">Submit Guess</button>
+        </div>
+
+        <!-- Feedback and Score -->
+        <p id="feedback"></p>
+        <p>Score: <span id="score">0</span>/5</p>
+    </div>
+
+    <!-- Include the JavaScript files -->
+    <script type="module" src="/static/js/quizInit.js"></script>
+
+</body>
+</html>
