@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spotify Playlists</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div id="header">
+        <h1>My Spotify Playlists</h1>
+        <div id="auth-buttons">
+            <button id="login-button">Login</button>
+            <button id="fetch-button" disabled>Fetch Playlists</button>
+        </div>
+    </div>
+
+    <!-- Flash messages section -->
+    <div id="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div id="main-content">
+        <!-- Left column: Playlists -->
+        <div id="playlists-container">
+            <h2>Playlists</h2>
+            <p>Click on a playlist to view its tracks.</p>
+        </div>
+
+        <!-- Right column: Tracks -->
+        <div id="tracks-container">
+            <h2>Tracks</h2>
+            <p>Select a playlist to see its tracks here.</p>
+        </div>
+    </div>
+
+    <!-- Include the JavaScript file -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
