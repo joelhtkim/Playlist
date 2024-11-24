@@ -1,10 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const playlistsContainer = document.getElementById('playlists-container');
     const tracksContainer = document.getElementById('tracks-container');
     const loginButton = document.getElementById('login-button');
     const fetchButton = document.getElementById('fetch-button');
+    const startGameButton = document.getElementById('start-game-button');
+    const playlistsContainer = document.getElementById('playlists-container');
+    let currentPlaylistId = null;
 
-    // Display playlists dynamically
+    console.log("Start Game Button Element:", startGameButton); // Log the button element
+
+    if (!startGameButton) {
+        console.error("Start Game button not found in the DOM.");
+        return;
+    }
+
+    playlistsContainer.addEventListener('click', (event) => {
+        const playlistDiv = event.target.closest('.playlist');
+        if (playlistDiv) {
+            // Remove "selected" class from all playlists
+            document.querySelectorAll('.playlist').forEach(el => el.classList.remove('selected'));
+    
+            // Add "selected" class to the clicked playlist
+            playlistDiv.classList.add('selected');
+    
+            // Store the selected playlist ID
+            currentPlaylistId = playlistDiv.dataset.playlistId;
+            console.log("Selected Playlist ID:", currentPlaylistId); // Debug log
+    
+            // Enable the "Start Game" button
+            startGameButton.disabled = false;
+    
+            // Fetch and display tracks for the selected playlist
+            displayPlaylistTracks(currentPlaylistId);
+        }
+    });
+    
+
+    // Add click event listener to the "Start Game" button
+    startGameButton.addEventListener('click', () => {
+        if (!currentPlaylistId) {
+            // Show notification if no playlist is selected
+            alert("Please select a playlist first!"); // Ensure the message appears only when no playlist is selected
+            console.log("No playlist selected. Start Game button clicked with no valid ID.");
+            return;
+        }
+
+        console.log("Start Game button clicked with Playlist ID:", currentPlaylistId); // Debug log
+    });
+
     function displayPlaylists(playlists) {
         playlistsContainer.innerHTML = ''; // Clear previous content
     
@@ -17,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageUrl = playlist.image || 'https://via.placeholder.com/50';
             const playlistDiv = document.createElement('div');
             playlistDiv.className = 'playlist';
+            playlistDiv.dataset.playlistId = playlist.playlist_id; // Attach playlist ID
             playlistDiv.innerHTML = `
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <img src="${imageUrl}" alt="${playlist.name || 'Unnamed Playlist'}"
@@ -24,14 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <strong>${playlist.name || 'Untitled Playlist'}</strong>
                 </div>
             `;
-            playlistDiv.addEventListener('click', () => {
-                displayPlaylistTracks(playlist.playlist_id);
-            });
             playlistsContainer.appendChild(playlistDiv);
         });
     }
 
-    // Fetch and display tracks for a playlist
     function displayPlaylistTracks(playlistId) {
         fetch(`/playlists/${playlistId}/tracks`)
             .then(response => response.json())
@@ -57,7 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching playlist tracks:', error);
             });
     }
+    
 
+    
     // Fetch playlists from the server
     function fetchPlaylists() {
         fetch('/playlists/saved')
@@ -91,4 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error checking login status:', error);
         });
+
+    
+        
 });

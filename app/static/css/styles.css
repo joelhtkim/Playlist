@@ -104,3 +104,34 @@ button:hover {
     border-bottom: 1px solid #333;
     margin-bottom: 10px;
 }
+
+/* Game section */
+#game-section {
+    margin-top: 20px;
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+}
+
+#game-content {
+    margin-top: 10px;
+}
+
+#song-guess {
+    width: 80%;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+#submit-guess-button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}

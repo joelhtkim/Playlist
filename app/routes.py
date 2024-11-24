@@ -185,3 +185,31 @@ def logout():
     session.clear()  # Clear the session data
     return {"message": "Logged out successfully"}
 
+
+#guess the song
+
+
+@main.route("/playlists/<playlist_id>/game-tracks", methods=["GET"])
+def get_game_tracks(playlist_id):
+    token_info = session.get("token_info")
+    if not token_info:
+        return {"message": "User not logged in"}, 401
+
+    sp = Spotify(auth=token_info["access_token"])
+    try:
+        playlist_tracks = sp.playlist_tracks(playlist_id)
+        tracks = [
+            {
+                "name": track["track"]["name"],
+                "preview_url": track["track"]["preview_url"],
+                "artist": ", ".join(artist["name"] for artist in track["track"]["artists"]),
+            }
+            for track in playlist_tracks.get("items", [])
+            if track["track"]["preview_url"]  # Only include tracks with preview URLs
+        ]
+        return {"tracks": tracks}
+    except Exception as e:
+        print(f"Error fetching playlist tracks: {e}")
+        return {"message": "Error fetching playlist tracks"}, 500
+
+

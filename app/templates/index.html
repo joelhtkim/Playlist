@@ -16,19 +16,6 @@
         </div>
     </div>
 
-    <!-- Flash messages section -->
-    <div id="flash-messages">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    </div>
-
     <div id="main-content">
         <!-- Left column: Playlists -->
         <div id="playlists-container">
@@ -40,6 +27,21 @@
         <div id="tracks-container">
             <h2>Tracks</h2>
             <p>Select a playlist to see its tracks here.</p>
+        </div>
+    </div>
+
+    <!-- Guess the Song Game Section -->
+    <div id="game-section">
+        <h2>Guess the Song</h2>
+        <p>Select a playlist to start the game.</p>
+        <button id="start-game-button" disabled>Start Game</button>
+        <div id="game-content" style="display: none;">
+            <p id="round-info"></p>
+            <audio id="song-preview" controls style="display: none;"></audio>
+            <input type="text" id="song-guess" placeholder="Type your guess here">
+            <button id="submit-guess-button">Submit Guess</button>
+            <p id="game-feedback"></p>
+            <p>Score: <span id="game-score">0</span>/5</p>
         </div>
     </div>
 
