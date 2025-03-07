@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`/playlists/${playlistId}/game-tracks`)
         .then(response => response.json())
         .then(data => {
+            console.log("Tracks fetched for the quiz:", data.tracks);
             if (!data.tracks || data.tracks.length === 0) {
                 alert("No tracks available for this playlist.");
                 return;
@@ -26,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log("Tracks fetched for the quiz:", data.tracks);
 
-            // Start the quiz using the imported function
             startQuizWithPlaylist(data.tracks);
         })
         .catch(error => {

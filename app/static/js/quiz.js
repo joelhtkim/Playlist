@@ -14,20 +14,18 @@ export function startQuizWithPlaylist(tracks) {
         return;
     }
 
-    let currentRound = 0; // Current round number
-    const maxRounds = 5; // Number of rounds in the game
-    let score = 0; // Player's score
-    let currentTrack = null; // Current track being played
-    let isTrackLoaded = false; // Indicates if a track is loaded
+    let currentRound = 0; 
+    const maxRounds = 5;
+    let score = 0; 
+    let currentTrack = null;
+    let isTrackLoaded = false; 
 
-    // Reset the UI for a new game
     feedbackElement.textContent = '';
     scoreElement.textContent = '0';
     songGuessInput.value = '';
-    audio.src = ''; // Clear any existing audio source
-    playButton.disabled = true; // Disable play until a track is loaded
+    audio.src = ''; 
+    playButton.disabled = true; 
 
-    // Function to start a round
     function startNextRound() {
         if (currentRound >= maxRounds) {
             endQuiz();
@@ -43,7 +41,6 @@ export function startQuizWithPlaylist(tracks) {
         currentTrack = validTracks[Math.floor(Math.random() * validTracks.length)];
         console.log("Selected Track:", currentTrack);
 
-        // Prepare the audio for playback but don't start playing
         audio.src = currentTrack.preview_url;
         audio.currentTime = 0;
         isTrackLoaded = true;
@@ -61,7 +58,6 @@ export function startQuizWithPlaylist(tracks) {
             return;
         }
 
-        // Check if the guess matches the current track's name
         if (currentTrack.name.toLowerCase() === userGuess) {
             feedbackElement.textContent = 'Correct!';
             score++;
@@ -72,10 +68,8 @@ export function startQuizWithPlaylist(tracks) {
         // Update score
         scoreElement.textContent = score;
 
-        // Clear input field
         songGuessInput.value = '';
 
-        // Delay for 2 seconds to show feedback before moving to the next track
         setTimeout(() => {
             feedbackElement.textContent = '';
             startNextRound();
@@ -86,7 +80,6 @@ export function startQuizWithPlaylist(tracks) {
     function endQuiz() {
         feedbackElement.textContent = `Game over! Your final score: ${score}/${maxRounds}`;
 
-        // Create options for the user
         const optionsContainer = document.createElement('div');
         optionsContainer.id = 'quiz-options';
 
@@ -125,7 +118,6 @@ export function startQuizWithPlaylist(tracks) {
         audio.play().catch(error => console.error("Audio playback error:", error));
         feedbackElement.textContent = 'Listening...';
 
-        // Stop playback after 5 seconds
         setTimeout(() => {
             audio.pause();
             feedbackElement.textContent = 'Guess the song!';
@@ -137,6 +129,5 @@ export function startQuizWithPlaylist(tracks) {
         feedbackElement.textContent = 'Playback paused.';
     });
 
-    // Start the first round
     startNextRound();
 }

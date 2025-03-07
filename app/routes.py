@@ -33,7 +33,7 @@ def playlists():
 @main.route("/playlists/save", methods=["POST"])
 def save_user_playlist():
     print("Session Data:", session) 
-    user_id = session.get("user_id")  # Retrieve user ID from session
+    user_id = session.get("user_id")  
     if not user_id:
         return {"message": "User not logged in"}, 401
 
@@ -66,22 +66,22 @@ def get_user_playlists():
         return {"message": "User not logged in"}, 401
 
     playlists = get_saved_playlists(user_id)
-    # Include 'playlist_id' in the response
+
+
     return jsonify({"playlists": playlists})
 
 
 @main.route("/test_db")
 def test_db():
-    """
-    Test if the MongoDB connection works in Flask.
-    """
+  
+
     try:
-        db = get_db()  # Retrieve database instance
-        print("Database Instance:", db)  # Debug log
-        collections = db.list_collection_names()  # List collections
+        db = get_db()  
+        print("Database Instance:", db) 
+        collections = db.list_collection_names()  
         return {"message": "MongoDB connection successful", "collections": collections}
     except Exception as e:
-        print("Error:", e)  # Print error to console
+        print("Error:", e)  
         return {"error": str(e)}, 500
 
 @main.route("/playlists/fetch", methods=["GET"])
@@ -96,10 +96,8 @@ def fetch_playlists():
     db = get_db()
     user_id = session.get("user_id")
 
-    # Clear old playlists
     db.playlists.delete_many({"user_id": user_id})
 
-    # Process and save playlists
     playlist_data = [
         {
             "id": playlist.get("id"),
@@ -155,7 +153,7 @@ def get_playlist_tracks(playlist_id):
         tracks = [
             {
                 "name": track["track"]["name"],
-                "preview_url": track["track"]["preview_url"],  # Include preview URL
+                "preview_url": track["track"]["preview_url"],  
                 "album_image": track["track"]["album"]["images"][0]["url"] if track["track"]["album"]["images"] else None,
                 "album": track["track"]["album"]["name"],
                 "artist": ", ".join(artist["name"] for artist in track["track"]["artists"])
@@ -181,7 +179,7 @@ def check_login_status():
 
 @main.route("/logout")
 def logout():
-    session.clear()  # Clear the session data
+    session.clear()  
     return {"message": "Logged out successfully"}
 
 
@@ -197,6 +195,9 @@ def get_game_tracks(playlist_id):
     sp = Spotify(auth=token_info["access_token"])
     try:
         playlist_tracks = sp.playlist_tracks(playlist_id)
+        import json
+        print(json.dumps(playlist_tracks, indent=2))
+
         tracks = [
             {
                 "name": track["track"]["name"],
@@ -204,7 +205,7 @@ def get_game_tracks(playlist_id):
                 "artist": ", ".join(artist["name"] for artist in track["track"]["artists"]),
             }
             for track in playlist_tracks.get("items", [])
-            if track["track"]["preview_url"]  # Only include tracks with preview URLs
+            if track["track"]["preview_url"] 
         ]
         return {"tracks": tracks}
     except Exception as e:

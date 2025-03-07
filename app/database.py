@@ -16,7 +16,7 @@ def save_playlist(user_id, playlist):
         "playlist_id": playlist["id"],
         "name": playlist["name"],
         "tracks": playlist["tracks"],
-        "image": playlist["image"]  # Add the `image` field here
+        "image": playlist["image"]  
     })
     return {"message": "Playlist saved successfully"}
 
@@ -30,7 +30,7 @@ def get_saved_playlists(user_id):
             "playlist_id": p["playlist_id"],
             "name": p["name"],
             "tracks": p["tracks"],
-            "image": p.get("image")  # Safely retrieve the `image` field if present
+            "image": p.get("image") 
         }
         for p in playlists
     ]
@@ -49,8 +49,8 @@ def get_db():
     if not current_app or not hasattr(current_app, "mongo"):
         raise RuntimeError("MongoDB is not initialized")
 
-    # Explicitly select the database
-    database = current_app.mongo.cx["playlists"]  # Replace "playlists" with your actual database name
-    print("Database Instance:", database)  # Debugging: Ensure this is not None
+    # Explicitly select db
+    database = current_app.mongo.cx["playlists"]   
+    print("Database Instance:", database)  
     return database
 

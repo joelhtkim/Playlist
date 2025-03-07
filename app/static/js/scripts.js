@@ -17,20 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
     playlistsContainer.addEventListener('click', (event) => {
         const playlistDiv = event.target.closest('.playlist');
         if (playlistDiv) {
-            // Remove "selected" class from all playlists
             document.querySelectorAll('.playlist').forEach(el => el.classList.remove('selected'));
 
-            // Add "selected" class to the clicked playlist
             playlistDiv.classList.add('selected');
 
-            // Store the selected playlist ID
             currentPlaylistId = playlistDiv.dataset.playlistId;
             console.log("Selected Playlist ID:", currentPlaylistId);
 
-            // Enable the Start Game button
             startGameButton.disabled = false;
 
-            // Optionally fetch and display tracks for the selected playlist
             displayPlaylistTracks(currentPlaylistId);
         } else {
             console.error("No playlist found or clicked element is not a playlist.");
@@ -50,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to display playlists dynamically
     function displayPlaylists(playlists) {
-        playlistsContainer.innerHTML = ''; // Clear previous content
+        playlistsContainer.innerHTML = ''; 
 
         if (playlists.length === 0) {
             playlistsContainer.innerHTML = '<p>No playlists found.</p>';
@@ -61,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageUrl = playlist.image || 'https://via.placeholder.com/50';
             const playlistDiv = document.createElement('div');
             playlistDiv.className = 'playlist';
-            playlistDiv.dataset.playlistId = playlist.playlist_id; // Attach playlist ID
+            playlistDiv.dataset.playlistId = playlist.playlist_id; 
             playlistDiv.innerHTML = `
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <img src="${imageUrl}" alt="${playlist.name || 'Unnamed Playlist'}"
@@ -78,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/playlists/${playlistId}/tracks`)
             .then(response => response.json())
             .then(data => {
-                tracksContainer.innerHTML = ''; // Clear previous tracks
+                tracksContainer.innerHTML = ''; 
 
                 if (!data.tracks || data.tracks.length === 0) {
                     tracksContainer.innerHTML = '<p>No tracks found.</p>';
@@ -102,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Function to fetch playlists from the server
     function fetchPlaylists() {
         fetch('/playlists/saved')
             .then(response => response.json())
@@ -116,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle login button click
     loginButton.addEventListener('click', () => {
-        window.location.href = '/login'; // Redirect to the login endpoint
+        window.location.href = '/login'; 
     });
 
     // Handle fetch button click
@@ -124,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchPlaylists();
     });
 
-    // Check if logged in and enable fetch button
     fetch('/check-login-status')
         .then(response => response.json())
         .then(data => {
